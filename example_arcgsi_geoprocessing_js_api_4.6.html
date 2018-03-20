@@ -27,7 +27,7 @@ require([
 	//a map with basemap
 	var map = new Map({
     basemap: "streets"
-  });
+	});
   
     //a graphics layer to show input point and output polygon
     var graphicsLayer = new GraphicsLayer();
@@ -67,7 +67,7 @@ require([
 	var gp = new Geoprocessor(gpUrl);
 	// define output spatial reference
     gp.outSpatialReference = { // autocasts as new SpatialReference()
-          wkid: 102100
+          wkid: 102100 //EPSG3857
         };
 	//add map click function
     view.on("click", bufferPoint);
@@ -114,12 +114,9 @@ require([
 			
 	function drawResult(data){
 
-	    var features = data.value.features;
-	    var bufferGraphics = features.map(function(feature) {
-            feature.symbol = fillSymbol;
-            return feature;			
-          });		
-	    graphicsLayer.addMany(bufferGraphics);
+	    var polygon_feature = data.value.features[0];
+		polygon_feature.symbol = fillSymbol;
+		graphicsLayer.add(polygon_feature);
 	}
 	
 	function drawResultErrBack(err) {
